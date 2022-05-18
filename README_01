@@ -1,0 +1,189 @@
+深度学习 3天
+TensorFlow框架使用 1天
+数据读取、神经网络基础 1天
+卷积神经网络、验证码识别 1天
+
+1、深度学习介绍
+2、TensorFlow框架的使用
+    1）TensorFlow的结构
+    2）TensorFlow的各个组件
+        图 
+        会话
+        张量
+        变量
+    3）简单的线性回归案例 - 将TensorFlow用起来
+1.1 深度学习与机器学习的区别
+    1.1.1 特征提取方面
+    1.1.2 数据量和计算性能要求
+    1.1.3 算法代表
+1.2 深度学习的应用场景
+1.3 深度学习框架介绍
+    1.3.1 常见深度学习框架对比
+    1.3.2 TensorFlow的特点
+    1.3.3 TensorFlow的安装
+        1 CPU版本
+        2 GPU版本
+            CPU:诸葛亮
+                综合能力比较强
+                核芯的数量更少
+                更适用于处理连续性（sequential）任务。
+            GPU:臭皮匠
+                专做某一个事情很好
+                核芯的数量更多
+                更适用于并行（parallel）任务
+2.1 TF数据流图
+    2.1.1 案例：TensorFlow实现一个加法运算
+    2 TensorFlow结构分析
+        一个构建图阶段
+            流程图：定义数据（张量Tensor）和操作（节点Op）
+        一个执行图阶段
+            调用各方资源，将定义好的数据和操作运行起来
+    2.1.2 数据流图介绍
+        TensorFlow
+        Tensor - 张量 - 数据
+        Flow - 流动
+2.2 图与TensorBoard
+    2.2.1 什么是图结构
+        图结构：
+            数据（Tensor） + 操作（Operation）
+    2.2.2 图相关操作
+        1 默认图
+            查看默认图的方法
+                1）调用方法
+                    用tf.get_default_graph()
+                2）查看属性
+                    .graph
+        2 创建图
+            new_g = tf.Graph()
+            with new_g.as_default():
+                定义数据和操作
+    2.2.3 TensorBoard:可视化学习
+        1 数据序列化-events文件
+            tf.summary.FileWriter(path, graph=sess.graph)
+        2 tensorboard
+    2.2.4 OP
+        数据：Tensor对象
+        操作：Operation对象 - Op
+        1 常见OP
+            操作函数        &                           操作对象
+            tf.constant(Tensor对象)           输入Tensor对象 -Const-输出 Tensor对象
+            tf.add(Tensor对象1, Tensor对象2)   输入Tensor对象1, Tensor对象2 - Add对象 - 输出 Tensor对象3
+        2 指令名称
+            一张图 - 一个命名空间
+2.3 会话
+    2.3.1 会话
+        tf.Session：用于完整的程序当中
+        tf.InteractiveSession：用于交互式上下文中的TensorFlow ，例如shell
+        1）会话掌握资源，用完要回收 - 上下文管理器
+        2）初始化会话对象时的参数
+            graph=None
+            target：如果将此参数留空（默认设置），
+            会话将仅使用本地计算机中的设备。
+            可以指定 grpc:// 网址，以便指定 TensorFlow 服务器的地址，
+            这使得会话可以访问该服务器控制的计算机上的所有设备。
+            config：此参数允许您指定一个 tf.ConfigProto
+            以便控制会话的行为。例如，ConfigProto协议用于打印设备使用信息
+        3)run(fetches,feed_dict=None)
+        3 feed操作
+            a = tf.placeholder(tf.float32, shape=)
+            b = tf.placeholder(tf.float32, shape=)
+2.4 张量Tensor
+    print()
+    ndarray
+    2.4.1 张量(Tensor)
+        张量 在计算机当中如何存储？
+        标量 一个数字                 0阶张量
+        向量 一维数组 [2, 3, 4]       1阶张量
+        矩阵 二维数组 [[2, 3, 4],     2阶张量
+                    [2, 3, 4]]
+        ……
+        张量 n维数组                  n阶张量
+        1 张量的类型
+        2 张量的阶
+        创建张量的时候，如果不指定类型
+        默认 tf.float32
+            整型 tf.int32
+            浮点型 tf.float32
+    2.4.2 创建张量的指令
+    2.4.3 张量的变换
+        ndarray属性的修改
+            类型的修改
+                1）ndarray.astype(type)
+                tf.cast(tensor, dtype)
+                    不会改变原始的tensor
+                    返回新的改变类型后的tensor
+                2）ndarray.tostring()
+            形状的修改
+                1）ndarray.reshape(shape)
+                    -1 自动计算形状
+                2）ndarray.resize(shape)
+                静态形状 - 初始创建张量时的形状
+                1）如何改变静态形状
+                    什么情况下才可以改变/更新静态形状？
+                        只有在形状没有完全固定下来的情况下
+                    tensor.set_shape(shape)
+                2）如何改变动态形状
+                    tf.reshape(tensor, shape)
+                    不会改变原始的tensor
+                    返回新的改变形状后的tensor
+                    动态创建新张量时，张量的元素个数必须匹配
+    2.4.4 张量的数学运算
+2.5 变量OP
+    TensorFlow - 变量
+    存储模型参数
+    2.5.1 创建变量
+        变量需要显式初始化，才能运行值
+    2.5.2 使用tf.variable_scope()修改变量的命名空间
+        使得结构更加清晰
+2.6 高级API
+    2.6.1 其它基础API
+    2.6.2 高级API
+2.7 案例：实现线性回归
+    2.7.1 线性回归原理复习
+        1）构建模型
+            y = w1x1 + w2x2 + …… + wnxn + b
+        2）构造损失函数
+            均方误差
+        3）优化损失
+            梯度下降
+    2.7.2 案例：实现线性回归的训练
+        准备真实数据
+            100样本
+            x 特征值 形状 (100, 1)
+            y_true 目标值 (100, 1)
+            y_true = 0.8x + 0.7
+        假定x 和 y 之间的关系 满足
+            y = kx + b
+            k ≈ 0.8 b ≈ 0.7
+            流程分析：
+            (100, 1) * (1, 1) = (100, 1)
+            y_predict = x * weights(1, 1) + bias(1, 1)
+            1）构建模型
+            y_predict = tf.matmul(x, weights) + bias
+            2）构造损失函数
+            error = tf.reduce_mean(tf.square(y_predict - y_true))
+            3）优化损失
+            optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(error)
+            5 学习率的设置、步数的设置与梯度爆炸
+    2.7.3 增加其他功能
+        1 增加变量显示
+            1）创建事件文件
+            2）收集变量
+            3）合并变量
+            4）每次迭代运行一次合并变量
+            5）每次迭代将summary对象写入事件文件
+        2 增加命名空间
+        3 模型的保存与加载
+            saver = tf.train.Saver(var_list=None,max_to_keep=5)
+            1）实例化Saver
+            2）保存
+                saver.save(sess, path)
+            3）加载
+                saver.restore(sess, path)
+        4 命令行参数使用
+            1）tf.app.flags
+            tf.app.flags.DEFINE_integer("max_step", 0, "训练模型的步数")
+            tf.app.flags.DEFINE_string("model_dir", " ", "模型保存的路径+模型名字")
+            2）FLAGS = tf.app.flags.FLAGS
+            通过FLAGS.max_step调用命令行中传过来的参数
+            3、通过tf.app.run()启动main(argv)函数
