@@ -313,9 +313,9 @@ if __name__ == "__main__":
     # variable_demo()
 
     # 代码 6：自实现一个线性回归
-    # linear_regression()
+    linear_regression()
 
     # 命令行参数演示
     # command_demo()
 
-    tf.app.run()
+    # tf.app.run()
